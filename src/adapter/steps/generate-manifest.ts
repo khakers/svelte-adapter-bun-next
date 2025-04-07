@@ -6,8 +6,6 @@ export async function generateManifest(builder: Builder, outDirectory: string) {
   const manifestContent = `export const manifest = ${builder.generateManifest({ relativePath: "./server" })};
 
 export const prerendered = new Set(${JSON.stringify(builder.prerendered.paths)});
-
-module.exports = { manifest, prerendered };
 `;
 
   const manifestPath = path.join(outDirectory, "manifest.js");

@@ -1,12 +1,11 @@
-import type { SSRManifest } from "@sveltejs/kit";
 import env from "./env";
 import { buildKitServer } from "./kit-server";
 import { buildRoutes } from "./routes";
 import { handleSSRRequest } from "./routes/ssr";
+import { getManifestFile } from "./utils";
 
 async function getBunServeConfig(): Promise<Parameters<typeof Bun.serve>[0]> {
-  const { manifest }: { manifest: SSRManifest } = process.env.NODE_ENV === "production" ? require("./manifest.js").prerendered_routes : {};
-
+  const { manifest } = await getManifestFile();
   const kitServer = await buildKitServer(manifest);
 
   return {
@@ -14,7 +13,7 @@ async function getBunServeConfig(): Promise<Parameters<typeof Bun.serve>[0]> {
     hostname: env.HOST,
     maxRequestBodySize: env.BODY_SIZE_LIMIT,
     development: env.DEV_MODE,
-    routes: buildRoutes(),
+    routes: await buildRoutes(),
     async fetch(req: Request) {
       return await handleSSRRequest(req, kitServer);
     },
@@ -25,7 +24,7 @@ async function getBunServeConfig(): Promise<Parameters<typeof Bun.serve>[0]> {
         {
           code: 500,
           message: "Oops! An unexpected error occurred.",
-          error: e,
+          error: e.message,
         },
         { status: 500 },
       );

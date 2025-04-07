@@ -17,9 +17,9 @@ export function handleSSRRequest(originalRequest: Request, server: KitServer): P
     // ...originalRequest,
   });
 
-  if (address_header && request.headers.get(host_header) !== "127.0.0.1" && !request.headers.has(address_header)) {
-    throw new Error(`Address header was specified with ADDRESS_HEADER=${address_header} but is absent from request`);
-  }
+  // if (address_header && request.headers.get(host_header) !== "127.0.0.1" && !request.headers.has(address_header)) {
+  //   throw new Error(`Address header was specified with ADDRESS_HEADER=${address_header} but is absent from request`);
+  // }
 
   return server.respond(request, {
     getClientAddress() {

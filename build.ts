@@ -26,11 +26,9 @@ await Bun.build({
   outdir: "dist/server",
   splitting: true,
   packages: "bundle",
-  // bytecode: true,
-  // format: "cjs",
+  env: "NODE_ENV*",
   target: "bun",
-  external: ["KitServer"],
-  // minify: { whitespace: true },
+  minify: { whitespace: true },
   sourcemap: "external",
 });
 await copyFile("src/server/.env.example", "dist/adapter/.env.example");

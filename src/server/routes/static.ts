@@ -1,36 +1,34 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
-import type { SSRManifest } from "@sveltejs/kit";
+import type { RouteReturn, RouteReturns } from "../types/RouteReturns";
+import { getManifestFile } from "../utils";
 
-export function buildStaticRoute(
-  folderPath: string,
-  isClient = false,
-): { route: string; handler: (req: Request) => Response | Promise<Response> } | false {
+export async function buildStaticRoute(folderPath: string, isClient = false): Promise<RouteReturns> {
   if (!existsSync(folderPath)) {
     return false;
   }
 
-  const { manifest }: { manifest: SSRManifest } =
-    process.env.NODE_ENV === "production" ? require("./manifest.js").prerendered_routes : {};
+  const { manifest } = await getManifestFile();
 
   const appDir = manifest.appDir;
+  const assets = manifest.assets;
 
-  return {
+  const appHandler: RouteReturn = {
     route: `/${appDir}/*`,
     handler: async (req) => {
-      const pathname = new URL(req.url).pathname;
-      const filepath = path.join(folderPath, pathname);
-
-      if (!existsSync(filepath)) {
-        const body = JSON.stringify({
-          code: 404,
-          message: "File not found.",
-        });
-        return new Response(body, { status: 404 });
-      }
-
       try {
+        const pathname = new URL(req.url).pathname;
+        const filepath = path.join(folderPath, pathname);
+
         const file = Bun.file(filepath);
+
+        if (!(await file.exists())) {
+          const body = JSON.stringify({
+            code: 404,
+            message: "File not found.",
+          });
+          return new Response(body, { status: 404 });
+        }
 
         const headers = new Headers({
           "Content-Type": file.type,
@@ -45,17 +43,56 @@ export function buildStaticRoute(
           status: 200,
         });
       } catch (e) {
-        console.log(e);
+        console.error(e);
 
         return Response.json(
           {
             code: 500,
             message: "Oops! Error occurred while serving static content.",
-            error: e,
+            error: (e as Error).message,
           },
           { status: 500 },
         );
       }
     },
   };
+
+  const assetsHandler: RouteReturn[] = Array.from(assets).map((v) => ({
+    route: `/${v}`,
+    handler: async () => {
+      try {
+        const file = Bun.file(path.join(folderPath, v));
+
+        if (!(await file.exists())) {
+          const body = JSON.stringify({
+            code: 404,
+            message: "Asset not found.",
+          });
+          return new Response(body, { status: 404 });
+        }
+
+        const headers = new Headers({
+          "Content-Type": file.type,
+        });
+
+        return new Response(await file.arrayBuffer(), {
+          headers,
+          status: 200,
+        });
+      } catch (e) {
+        console.error(e);
+
+        return Response.json(
+          {
+            code: 500,
+            message: "Oops! Error occurred while serving static content.",
+            error: (e as Error).message,
+          },
+          { status: 500 },
+        );
+      }
+    },
+  }));
+
+  return [appHandler, ...assetsHandler];
 }
