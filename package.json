@@ -1,0 +1,47 @@
+{
+  "name": "svelte-adapter-bun",
+  "version": "0.1.0",
+  "description": "Adapter for SvelteKit apps that generates a standalone Bun.js server.",
+  "main": "./dist/server/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/adapter/index.d.ts",
+      "import": "./dist/adapter/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "bun run build.ts",
+    "prepare": "bun run build",
+    "format": "biome format . --write",
+    "lint": "biome lint . --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheOrdinaryWow/svelte-adapter-bun.git"
+  },
+  "keywords": ["svelte", "sveltekit", "sveltekit-adapter", "bun"],
+  "author": "Wow <@TheOrdinaryWow>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheOrdinaryWow/svelte-adapter-bun/issues"
+  },
+  "homepage": "https://github.com/TheOrdinaryWow/svelte-adapter-bun#readme",
+  "devDependencies": {
+    "@biomejs/biome": "latest",
+    "@sveltejs/kit": "latest",
+    "bun-types": "latest",
+    "oxc-transform": "latest",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@t3-oss/env-core": "latest",
+    "tiny-glob": "^0.2.9",
+    "zod": "^3.24.2"
+  },
+  "engines": {
+    "bun": ">=1.2.5"
+  }
+}
