@@ -2,8 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Builder } from "@sveltejs/kit";
-
-type Dependencies = Record<string, string>;
+import type { Dependencies } from "../types/Dependencies";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,6 +16,7 @@ export async function createPackageJson(
 ): Promise<void> {
   // Read original package.json
   let pkg: Record<string, unknown> = {};
+
   try {
     const packageJsonContent = await fs.readFile("package.json", "utf-8");
     pkg = JSON.parse(packageJsonContent);

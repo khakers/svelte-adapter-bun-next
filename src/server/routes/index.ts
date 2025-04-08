@@ -1,13 +1,9 @@
 import path from "node:path";
-import type { RouterTypes } from "bun";
 import env from "../env";
+import type { Routes } from "../types/Routes";
 import { __dirname } from "../utils";
 import { buildPrerenderRoutes } from "./prerender";
 import { buildDisabledStaticRoute, buildStaticRoute } from "./static";
-
-type Routes = {
-  [K in string]: RouterTypes.RouteValue<K>;
-};
 
 export async function buildRoutes(): Promise<Routes> {
   const routes: Routes = {};
