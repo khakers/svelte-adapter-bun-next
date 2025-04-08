@@ -65,11 +65,13 @@ export async function buildStaticRoute(folderPath: string, isClient = false): Pr
         const file = Bun.file(path.join(folderPath, v));
 
         if (!(await file.exists())) {
-          const body = JSON.stringify({
-            code: 404,
-            message: "Asset not found.",
-          });
-          return new Response(body, { status: 404 });
+          return Response.json(
+            {
+              code: 404,
+              message: "Asset not found.",
+            },
+            { status: 404 },
+          );
         }
 
         const headers = new Headers({

@@ -5,6 +5,7 @@ import { getManifestFile } from "../utils";
 
 export async function buildPrerenderRoutes(folderPath: string): Promise<RouteReturns> {
   if (!existsSync(folderPath)) {
+    console.warn("assets not exist, skipping serving prerendered pages");
     return false;
   }
 
