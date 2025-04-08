@@ -14,8 +14,8 @@ async function getBunServeConfig(): Promise<Parameters<typeof Bun.serve>[0]> {
     maxRequestBodySize: env.BODY_SIZE_LIMIT,
     development: env.DEV_MODE,
     routes: await buildRoutes(),
-    async fetch(req: Request) {
-      return await handleSSRRequest(req, kitServer);
+    async fetch(req, srv) {
+      return await handleSSRRequest(req, srv, kitServer);
     },
     error(e: Error) {
       console.error(e);
