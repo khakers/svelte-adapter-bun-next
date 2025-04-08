@@ -22,6 +22,8 @@
     "type": "git",
     "url": "git+https://github.com/TheOrdinaryWow/svelte-adapter-bun-next.git"
   },
+  "npm": "svelte-adapter-bun-next",
+  "categories": ["sveltekit-adapters"],
   "keywords": ["svelte", "sveltekit", "sveltekit-adapter", "bun"],
   "author": "TheOrdinaryWow <@25114850+TheOrdinaryWow@users.noreply.github.com>",
   "license": "MIT",
