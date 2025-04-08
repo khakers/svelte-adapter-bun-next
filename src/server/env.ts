@@ -10,7 +10,7 @@ const env = createEnv({
     // Maximum request body size (optional)
     BODY_SIZE_LIMIT: z.coerce.number().int().gt(0).optional(),
     // Application origin URL
-    ORIGIN: z.string().url().default("http://localhost:3001"),
+    ORIGIN: z.string().url().default("http://localhost:3000"),
     // Header for forwarded protocol
     PROTOCOL_HEADER: z.string().default("X-Forwarded-Proto"),
     // Header for forwarded host

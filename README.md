@@ -86,27 +86,24 @@ Full schema is defined in [`env.ts`](https://github.com/TheOrdinaryWow/svelte-ad
 
 ### `PORT` and `HOST`
 
-By default, the server will accept connections on `0.0.0.0` using port 3000. These can be customized with the `PORT` and `HOST` environment variables:
+Specify the port and host to listen on.
 
-```
-HOST=127.0.0.1 PORT=4000 bun build/index.js
-```
+Default: `0.0.0.0`, `3000`
 
 ### `ORIGIN`, `PROTOCOL_HEADER` and `HOST_HEADER`
 
-HTTP doesn't give SvelteKit a reliable way to know the URL that is currently being requested. The simplest way to tell SvelteKit where the app is being served is to set the `ORIGIN` environment variable:
+HTTP doesn't give SvelteKit a reliable way to know the URL that is currently being requested. The simplest way to tell SvelteKit where the app is being served is to set the `ORIGIN` environment variable.
 
-```
-ORIGIN=https://my.site bun build/index.js
-```
-
-With this, a request for the `/stuff` pathname will correctly resolve to `https://my.site/stuff`. Alternatively, you can specify headers that tell SvelteKit about the request protocol and host, from which it can construct the origin URL:
-
-```
-PROTOCOL_HEADER=x-forwarded-proto HOST_HEADER=x-forwarded-host bun build/index.js
-```
+With this, a request for the `/stuff` pathname will correctly resolve to `https://my.site/stuff`. Alternatively, you can specify headers that tell SvelteKit about the request protocol and host, from which it can construct the origin URL.
 
 > [`x-forwarded-proto`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Proto) and [`x-forwarded-host`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host) are de facto standard headers that forward the original protocol and host if you're using a reverse proxy (think load balancers and CDNs). You should only set these variables if your server is behind a trusted reverse proxy; otherwise, it'd be possible for clients to spoof these headers.
+
+Default: `http://localhost:3000`, `X-Forwarded-Proto`, `X-Forwarded-Host`
+
+### `DEV_MODE`
+This enables bun's error page.
+
+Default: `false`
 
 ## Acknowledgements
 
