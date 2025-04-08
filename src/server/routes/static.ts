@@ -5,6 +5,7 @@ import { getManifestFile } from "../utils";
 
 export async function buildStaticRoute(folderPath: string, isClient = false): Promise<RouteReturns> {
   if (!existsSync(folderPath)) {
+    console.warn("assets not exist, skipping serving static assets");
     return false;
   }
 
@@ -95,4 +96,25 @@ export async function buildStaticRoute(folderPath: string, isClient = false): Pr
   }));
 
   return [appHandler, ...assetsHandler];
+}
+
+export async function buildDisabledStaticRoute(): Promise<RouteReturns> {
+  const { manifest } = await getManifestFile();
+
+  const immutableDir = manifest.appDir;
+  return [
+    {
+      route: `/${immutableDir}/immutable/*`,
+      handler: async () => {
+        return Response.json(
+          {
+            message: "Static assets serving is disabled.",
+          },
+          {
+            status: 501,
+          },
+        );
+      },
+    },
+  ];
 }

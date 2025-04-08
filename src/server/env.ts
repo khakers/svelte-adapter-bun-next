@@ -22,9 +22,17 @@ const env = createEnv({
     // Header for forwarded port
     PORT_HEADER: z.string().default("X-Forwarded-Port"),
     // Enable static asset serving
-    ASSETS: z.boolean().default(true),
+    ASSETS: z
+      .preprocess((v) => {
+        return typeof v === "string" ? v.toLowerCase() === "true" || v === "1" : v;
+      }, z.boolean())
+      .default(true),
     // Enable development mode
-    DEV_MODE: z.boolean().default(false),
+    DEV_MODE: z
+      .preprocess((v) => {
+        return typeof v === "string" ? v.toLowerCase() === "true" || v === "1" : v;
+      }, z.boolean())
+      .default(false),
   },
   shared: {
     // Node environment
