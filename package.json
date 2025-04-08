@@ -1,6 +1,6 @@
 {
   "name": "svelte-adapter-bun-next",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Adapter for SvelteKit apps that generates a standalone Bun.js server.",
   "main": "./dist/server/index.js",
   "type": "module",
@@ -11,7 +11,9 @@
     },
     "./package.json": "./package.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "bun run build.ts",
     "prepare": "bun run build",
@@ -22,7 +24,12 @@
     "type": "git",
     "url": "git+https://github.com/TheOrdinaryWow/svelte-adapter-bun-next.git"
   },
-  "keywords": ["svelte", "sveltekit", "sveltekit-adapter", "bun"],
+  "keywords": [
+    "svelte",
+    "sveltekit",
+    "sveltekit-adapter",
+    "bun"
+  ],
   "author": "TheOrdinaryWow <@25114850+TheOrdinaryWow@users.noreply.github.com>",
   "license": "MIT",
   "bugs": {
