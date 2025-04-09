@@ -16,7 +16,8 @@
     "build": "bun run build.ts",
     "prepare": "bun run build",
     "format": "biome format . --write",
-    "lint": "biome lint . --write"
+    "lint": "biome lint . --write",
+    "knip": "knip"
   },
   "repository": {
     "type": "git",
@@ -34,9 +35,11 @@
   "devDependencies": {
     "@biomejs/biome": "latest",
     "@sveltejs/kit": "latest",
+    "@types/node": "^22",
     "bun-types": "latest",
+    "knip": "latest",
     "oxc-transform": "latest",
-    "typescript": "^5.8.3"
+    "typescript": "^5"
   },
   "dependencies": {
     "@t3-oss/env-core": "latest",
