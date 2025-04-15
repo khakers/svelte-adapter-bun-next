@@ -40,3 +40,24 @@ export function get_origin(headers: Headers): string {
 
   return `${protocol}://${host}`;
 }
+
+export function parseEnvBytes(input: string | number): number {
+  if (typeof input === "number") return input === 0 ? Number.POSITIVE_INFINITY : input;
+
+  // biome-ignore lint/style/noNonNullAssertion: guarded by `zod`
+  const match = input.match(/^(\d+)(?:(K|M|G))?$/i)!;
+
+  const size = Number.parseInt(match[1] || "0", 10);
+  const unit = match[2]?.toUpperCase() || "";
+
+  switch (unit) {
+    case "K":
+      return size * 1024;
+    case "M":
+      return size * 1024 * 1024;
+    case "G":
+      return size * 1024 * 1024 * 1024;
+    default:
+      return size;
+  }
+}

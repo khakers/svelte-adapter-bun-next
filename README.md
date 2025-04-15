@@ -60,19 +60,19 @@ export default {
 
 ### out
 
-The directory to build the server to. It defaults to `build` — i.e. `bun run start` would start the server locally after it has been created.
+The directory to build the server to. Default: `build` — i.e. `bun run start` would start the server locally after it has been created.
 
 ### precompress
 
-Enables precompressing using gzip and brotli for assets and prerendered pages. It defaults to `false`.
+Enables precompressing using gzip and brotli for assets and prerendered pages. Default: `false`.
 
 #### brotli
 
-Enable brotli precompressing. It defaults to `false`.
+Enable brotli precompressing. Default: `false`.
 
 #### gzip
 
-Enable gzip precompressing. It defaults to `false`.
+Enable gzip precompressing. Default: `false`.
 
 ### development
 
@@ -89,6 +89,18 @@ Full schema is defined in [`env.ts`](https://github.com/TheOrdinaryWow/svelte-ad
 Specify the port and host to listen on.
 
 Default: `0.0.0.0`, `3000`
+
+### `BODY_SIZE_LIMIT`
+
+The maximum request body size to accept in bytes including while streaming.
+
+Accepted inputs:
+
+- Raw number in bytes, e.g. `1048576`.
+- String with a unit suffix (`K`, `M`, `G`), e.g. `1M`.
+- Literal string `"Infinity"` or number `0` to disable body size limit.
+
+Default: `512K`
 
 ### `ORIGIN`, `PROTOCOL_HEADER` and `HOST_HEADER`
 

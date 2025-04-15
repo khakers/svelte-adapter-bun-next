@@ -8,7 +8,13 @@ const env = createEnv({
     // Server port number
     PORT: z.coerce.number().int().gte(1).lte(65535).default(3000),
     // Maximum request body size (optional)
-    BODY_SIZE_LIMIT: z.coerce.number().int().gt(0).optional(),
+    BODY_SIZE_LIMIT: z
+      .union([
+        z.coerce.number().int().gte(0),
+        z.string().refine((val) => /^(\d+)(K|M|G)?$/i.test(val), {}),
+        z.literal("Infinity").transform(() => Number.POSITIVE_INFINITY),
+      ])
+      .default("512K"),
     // Application origin URL
     ORIGIN: z.string().url().default("http://localhost:3000"),
     // Header for forwarded protocol

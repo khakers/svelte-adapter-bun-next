@@ -2,7 +2,7 @@ import env from "./env";
 import { buildKitServer } from "./kit-server";
 import { buildRoutes } from "./routes";
 import { handleSSRRequest } from "./routes/ssr";
-import { getManifestFile } from "./utils";
+import { getManifestFile, parseEnvBytes } from "./utils";
 
 async function getBunServeConfig(): Promise<Parameters<typeof Bun.serve>[0]> {
   const { manifest } = await getManifestFile();
@@ -11,7 +11,7 @@ async function getBunServeConfig(): Promise<Parameters<typeof Bun.serve>[0]> {
   return {
     port: env.PORT,
     hostname: env.HOST,
-    maxRequestBodySize: env.BODY_SIZE_LIMIT,
+    maxRequestBodySize: parseEnvBytes(env.BODY_SIZE_LIMIT),
     development: env.DEV_MODE,
     routes: await buildRoutes(),
     async fetch(req, srv) {
